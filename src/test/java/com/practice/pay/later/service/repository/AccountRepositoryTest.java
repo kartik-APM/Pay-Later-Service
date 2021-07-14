@@ -22,14 +22,14 @@ class AccountRepositoryTest {
         Date date = new Date();
 
         User user = User.builder()
-                .firstName("KK")
-                .emailId("k.p@gmail.com")
+                .firstName("KKp")
+                .emailId("kkpNEW.p@gmail.com")
                 .build();
 
         Account account = Account.builder()
-                .accountId("718401011010947")
-                .authorisedCreditLimit(20000)
-                .availableCreditLimit(15000)
+                .accountId("71123811010947")
+                .authorisedCreditLimit(30000)
+                .availableCreditLimit(3000)
                 .createdAt(date)
                 .updatedAt(date)
                 .user(user)
@@ -40,7 +40,9 @@ class AccountRepositoryTest {
 
     @Test
     public void printAllAccount(){
-        List<Account> accounts = accountRepository.findAll();
+        List<Account> accounts =
+                accountRepository.findAll();
+
         System.out.println("User List =" + accounts);
     }
 }

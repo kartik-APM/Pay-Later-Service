@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = "user")
 
 @Table(
         indexes = @Index(
@@ -22,19 +22,28 @@ import java.util.Date;
 public class Account {
 
     @Id
+    @Column(
+            //name = "accountNumber",
+            updatable = false
+    )
     private String accountId;
+
+    @Column(
+            updatable = false
+    )
     private int authorisedCreditLimit;
     private int availableCreditLimit;
     private Date createdAt;
     private Date updatedAt;
 
     @OneToOne(
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            optional = false
     )
     @JoinColumn(
             name = "userDetails",
             referencedColumnName = "userId"
     )
     private User user;
-
 }

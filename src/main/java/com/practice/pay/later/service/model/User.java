@@ -33,12 +33,17 @@ public class User {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
+    @Column(
+            updatable = false,
+            nullable = false
+    )
     private Long userId;
     private String firstName;
     private String lastName;
 
     @Column(
-            nullable = false
+            nullable = false,
+            updatable = false
     )
     private String emailId;
     private String phoneNumber;
@@ -46,4 +51,11 @@ public class User {
     @Embedded
     private Address address;
 
+    //Bi-directional OneToOne mapping
+    //to get account data when the
+    // printAllUser() is called
+    @OneToOne(
+            mappedBy = "user"
+    )
+    private Account account;
 }

@@ -19,15 +19,15 @@ class UserRepositoryTest {
     @Test
     public void saveUser(){
         Address address = Address.builder()
-                .street("Goshainganj")
+                .street("Goinganj")
                 .city("Gkp")
                 .state("U.P.")
-                .pin("220912")
+                .pin("221010")
                 .build();
 
         User user = User.builder()
-                .emailId("abc6@gmail.com")
-                .firstName("Harshita")
+                .emailId("abc146@gmail.com")
+                .firstName("Harsh")
                 .phoneNumber("7348906723")
                 .lastName("Pandey")
                 .address(address)
