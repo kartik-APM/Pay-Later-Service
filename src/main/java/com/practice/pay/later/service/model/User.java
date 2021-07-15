@@ -1,5 +1,6 @@
 package com.practice.pay.later.service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,6 +9,8 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
 @ToString
 
@@ -54,8 +57,12 @@ public class User {
     //Bi-directional OneToOne mapping
     //to get account data when the
     // printAllUser() is called
+
     @OneToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
             mappedBy = "user"
     )
+    @JsonIgnoreProperties("user")
     private Account account;
 }

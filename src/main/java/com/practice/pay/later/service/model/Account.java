@@ -1,5 +1,6 @@
 package com.practice.pay.later.service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,8 +10,10 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
-@ToString(exclude = "user")
+@ToString   //(exclude = "user")
 
 @Table(
         indexes = @Index(
@@ -45,5 +48,6 @@ public class Account {
             name = "userDetails",
             referencedColumnName = "userId"
     )
+    @JsonIgnoreProperties("account")
     private User user;
 }
