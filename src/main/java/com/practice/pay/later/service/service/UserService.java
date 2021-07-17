@@ -11,7 +11,7 @@ public interface UserService {
 
     public List<User> getAllUser();
 
-    public User getUser(Long userId);
+    public User getUserById(Long userId);
 
     public List<User> getUserByFirstName(String firstName);
 
@@ -22,7 +22,5 @@ public interface UserService {
     public User updateUserDetails(User user, Long userId);
 
     public void updateAddressDetails(User user, Long userId);
-
-//    public void updateAccountDetails(User user, Long userId);
 
 }

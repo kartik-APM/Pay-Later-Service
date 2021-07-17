@@ -17,27 +17,37 @@ import java.util.Date;
 
 @Table(
         indexes = @Index(
-                name = "idx_createdAt_updatedAt",
-                columnList = "createdAt,updatedAt"
+                name = "idx_dateAccountCreated_dateAccountUpdated",
+                columnList = "dateAccountCreated,dateAccountUpdated"
 
         )
 )
 public class Account {
 
     @Id
-    @Column(
-            //name = "accountNumber",
-            updatable = false
+    @SequenceGenerator(
+            name = "account_sequence",
+            sequenceName = "account_sequence",
+            initialValue = 1000001,
+            allocationSize = 100
     )
-    private String accountId;
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "account_sequence"
+    )
+    private Long accountId;
 
     @Column(
             updatable = false
     )
     private int authorisedCreditLimit;
     private int availableCreditLimit;
-    private Date createdAt;
-    private Date updatedAt;
+
+    @Column(
+            updatable = false
+    )
+    private String dateAccountCreated;
+    private String dateAccountUpdated;
 
     @OneToOne(
             cascade = CascadeType.ALL,

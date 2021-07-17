@@ -27,11 +27,8 @@ class AccountRepositoryTest {
                 .build();
 
         Account account = Account.builder()
-                .accountId("71123811010947")
                 .authorisedCreditLimit(30000)
                 .availableCreditLimit(3000)
-                .createdAt(date)
-                .updatedAt(date)
                 .user(user)
                 .build();
 

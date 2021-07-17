@@ -26,7 +26,8 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable("id") Long userId){
-        return userService.getUser(userId);
+
+        return userService.getUserById(userId);
     }
 
     @GetMapping("/users/firstName/{id}")
@@ -49,16 +50,9 @@ public class UserController {
         userService.updateUserDetails(user, userId);
     }
 
-    @PutMapping("/users/address/{id}")
+    @PutMapping("/users/{id}/address")
     public void updateAddressDetails(@RequestBody User user,
                                      @PathVariable("id") Long userId){
         userService.updateAddressDetails(user, userId);
     }
-
-    //Failed Attempt
-//    @PutMapping("/users/account/{id}")
-//    public void updateAccountDetails(@RequestBody User user,
-//                                     @PathVariable("id") Long userId){
-//        userService.updateAccountDetails(user, userId);
-//    }
 }

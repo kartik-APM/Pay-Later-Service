@@ -14,15 +14,10 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/accounts/{id}")
+    @PostMapping("users/{id}/accounts")
     public void addAccountDetails(@RequestBody Account account,
                                      @PathVariable("id") Long userId){
         accountService.addAccountDetails(account, userId);
     }
-
-//    @GetMapping("/accounts")
-//    public List<Account> getAllAccounts(){
-//        return accountService.getAllAccounts();
-//    }
 
 }

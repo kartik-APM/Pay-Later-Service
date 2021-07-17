@@ -13,9 +13,6 @@ import java.util.Date;
 @Builder
 @ToString
 @Table(
-        uniqueConstraints = @UniqueConstraint(
-                columnNames = "debitTransactionId"
-        ),
         indexes = @Index(
                 name = "idx_amount_transactionDate_status",
                 columnList = "amount,transactionDate,status"
@@ -24,9 +21,14 @@ import java.util.Date;
 public class DebitTransaction {
 
     @Id
-    @Column(
-            updatable = false,
-            nullable = false
+    @SequenceGenerator(
+            name = "debitTransactionId_sequence",
+            sequenceName = "debitTransactionId_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "debitTransactionId_sequence"
     )
     private String debitTransactionId;
     private int amount;
@@ -35,7 +37,7 @@ public class DebitTransaction {
             nullable = false
     )
     private String orderId;
-    private Date transactionDate;
+    private String transactionDate;
     private String status;
 
     @ManyToOne(

@@ -8,8 +8,8 @@ import com.practice.pay.later.service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -22,16 +22,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void addAccountDetails(Account account, Long userId) {
-        Date date = new Date();
-        User userFromDb = userRepository.findById(userId).get();
-        account.setUser(userFromDb);
-        account.setCreatedAt(date);
-        account.setUpdatedAt(date);
-        accountRepository.save(account);
-    }
 
-//    @Override
-//    public List<Account> getAllAccounts() {
-//        return accountRepository.findAll();
-//    }
+        Date date = new Date();
+        SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
+        String stringDate= DateFor.format(date);
+
+        User userFromDb = userRepository.findById(userId).get();
+
+        account.setUser(userFromDb);
+        account.setDateAccountCreated(stringDate);
+        account.setDateAccountUpdated(stringDate);
+        account.setAvailableCreditLimit(account.getAuthorisedCreditLimit());
+        accountRepository.save(account);
+        System.out.println(account);
+        System.out.println("Account Details Saved");
+    }
 }

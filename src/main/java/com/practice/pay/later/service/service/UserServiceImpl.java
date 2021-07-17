@@ -22,13 +22,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public List<User> getAllUser() { return userRepository.findAll();
     }
 
     @Override
-    public User getUser(Long userId) {
-        return userRepository.findById(userId).get();
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
+                new IllegalStateException("User with id "+userId+" does not exist"));
     }
 
     @Override
@@ -46,69 +46,84 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmailId(emailId);
     }
 
-    @Override
-    public void updateAddressDetails(User user, Long userId) {
-        User userFromDb = userRepository.findById(userId).get();
-        Address address = userFromDb.getAddress();
-
-        if (Objects.nonNull(user.getAddress().getStreet()) &&
-                !"".equalsIgnoreCase(user.getAddress().getStreet())) {
-            address.setStreet(user.getAddress().getStreet());
+    public void updateFirstName(User user, String str) {
+        if (Objects.nonNull(str) &&
+                !"".equalsIgnoreCase(str)) {
+            user.setFirstName(str);
         }
-
-        if (Objects.nonNull(user.getAddress().getCity()) &&
-                !"".equalsIgnoreCase(user.getAddress().getCity())) {
-            address.setCity(user.getAddress().getCity());
-        }
-
-        if (Objects.nonNull(user.getAddress().getState()) &&
-                !"".equalsIgnoreCase(user.getAddress().getState())) {
-            address.setState(user.getAddress().getState());
-        }
-
-        if (Objects.nonNull(user.getAddress().getPin()) &&
-                !"".equalsIgnoreCase(user.getAddress().getPin())) {
-            address.setPin(user.getAddress().getPin());
-        }
-
-        userRepository.save(userFromDb);
-
     }
-
+    public void updateLastName(User user, String str) {
+        if (Objects.nonNull(str) &&
+                !"".equalsIgnoreCase(str)) {
+            user.setLastName(str);
+        }
+    }
+    public void updatePhoneNumber(User user, String str) {
+        if (Objects.nonNull(str) &&
+                !"".equalsIgnoreCase(str)) {
+            user.setPhoneNumber(str);
+        }
+    }
     @Override
     public User updateUserDetails(User user, Long userId) {
         User userFromDb = userRepository.findById(userId).get();
+        String str;
 
-        if (Objects.nonNull(user.getFirstName()) &&
-                !"".equalsIgnoreCase(user.getFirstName())) {
-            userFromDb.setFirstName(user.getFirstName());
-        }
+        str = user.getFirstName();
+        updateFirstName(userFromDb, str);
 
-        if (Objects.nonNull(user.getLastName()) &&
-                !"".equalsIgnoreCase(user.getLastName())) {
-            userFromDb.setLastName(user.getLastName());
-        }
+        str = user.getLastName();
+        updateLastName(userFromDb, str);
 
-        if (Objects.nonNull(user.getPhoneNumber()) &&
-                !"".equalsIgnoreCase(user.getPhoneNumber())) {
-            userFromDb.setPhoneNumber(user.getPhoneNumber());
-        }
+        str = user.getPhoneNumber();
+        updatePhoneNumber(userFromDb, str);
 
         return userRepository.save(userFromDb);
     }
 
-//    @Override
-//    public void updateAccountDetails(User user, Long userId) {
-//        User userFromDb = userRepository.findById(userId).get();
-//        Account account = userFromDb.getAccount();
-//
-//        if (Objects.nonNull(user.getAccount().getAccountId()) &&
-//                !"".equalsIgnoreCase(user.getAccount().getAccountId())) {
-//            account.setAccountId(user.getAccount().getAccountId());
-//        }
-//
-//        userRepository.save(userFromDb);
-//
-//    }
+    public void updateStreet(Address address, String str) {
+        if (Objects.nonNull(str) &&
+                !"".equalsIgnoreCase(str)) {
+            address.setStreet(str);
+        }
+    }
+    public void updateCity(Address address, String str) {
+        if (Objects.nonNull(str) &&
+                !"".equalsIgnoreCase(str)) {
+            address.setCity(str);
+        }
+    }
+    public void updateState(Address address, String str) {
+        if (Objects.nonNull(str) &&
+                !"".equalsIgnoreCase(str)) {
+            address.setState(str);
+        }
+    }
+    public void updatePin(Address address, String str) {
+        if (Objects.nonNull(str) &&
+                !"".equalsIgnoreCase(str)) {
+            address.setPin(str);
+        }
+    }
+    @Override
+    public void updateAddressDetails(User user, Long userId) {
+        User userFromDb = userRepository.findById(userId).get();
+        Address address = userFromDb.getAddress();
+        String str;
+
+        str = user.getAddress().getStreet();
+        updateStreet(address, str);
+
+        str = user.getAddress().getCity();
+        updateCity(address, str);
+
+        str = user.getAddress().getState();
+        updateState(address, str);
+
+        str = user.getAddress().getPin();
+        updatePin(address, str);
+
+        userRepository.save(userFromDb);
+    }
 
 }

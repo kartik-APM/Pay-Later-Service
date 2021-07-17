@@ -26,15 +26,12 @@ class RepaymentRepositoryTest {
                 .build();
 
         Account account = Account.builder()
-                .accountId("71123811010947")
                 .user(user)
                 .build();
 
-        Date date = new Date();
         Repayment repayment = Repayment.builder()
                 .repaymentTransactionId("4321141234")
                 .amount(12340)
-                .transactionDate(date)
                 .status("OK! 200")
                 .account(account)
                 .build();
