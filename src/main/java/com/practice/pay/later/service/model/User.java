@@ -31,7 +31,7 @@ public class User {
             name = "user_sequence",
             sequenceName = "user_sequence",
             initialValue = 100001,
-            allocationSize = 100
+            allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,

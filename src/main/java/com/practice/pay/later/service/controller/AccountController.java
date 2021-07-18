@@ -20,4 +20,9 @@ public class AccountController {
         accountService.addAccountDetails(account, userId);
     }
 
+    @GetMapping("users/{id}/accounts")
+    public Account getAccountDetails(@PathVariable("id") Long userId){
+        return accountService.getAccountDetails(userId);
+    }
+
 }

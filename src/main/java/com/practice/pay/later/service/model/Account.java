@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-@ToString   //(exclude = "user")
+@ToString(exclude = "user")
 
 @Table(
         indexes = @Index(

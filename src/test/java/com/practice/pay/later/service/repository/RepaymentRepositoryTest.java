@@ -30,7 +30,6 @@ class RepaymentRepositoryTest {
                 .build();
 
         Repayment repayment = Repayment.builder()
-                .repaymentTransactionId("4321141234")
                 .amount(12340)
                 .status("OK! 200")
                 .account(account)

@@ -8,4 +8,5 @@ public interface AccountService {
 
     public void addAccountDetails(Account account, Long userId);
 
+    public Account getAccountDetails(Long userId);
 }

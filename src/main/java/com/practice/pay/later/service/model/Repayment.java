@@ -30,13 +30,14 @@ public class Repayment {
             strategy = GenerationType.SEQUENCE,
             generator = "repaymentTransactionId_sequence"
     )
-    private String repaymentTransactionId;
+    private Long repaymentTransactionId;
     private int amount;
     private String transactionDate;
     private String status;
 
     @ManyToOne(
             cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
             optional = false
     )
     @JoinColumn(

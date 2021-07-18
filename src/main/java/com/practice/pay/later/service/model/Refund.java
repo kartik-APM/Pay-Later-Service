@@ -4,7 +4,6 @@ package com.practice.pay.later.service.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
@@ -30,18 +29,19 @@ public class Refund {
             strategy = GenerationType.SEQUENCE,
             generator = "refundTransactionId_sequence"
     )
-    private String refundTransactionId;
+    private Long refundTransactionId;
     private int amount;
     @Column(
             updatable = false,
             nullable = false
     )
-    private String originalTransactionId;
+    private Long originalTransactionId;
     private String transactionDate;
     private String status;
 
     @ManyToOne(
             cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
             optional = false
     )
     @JoinColumn(

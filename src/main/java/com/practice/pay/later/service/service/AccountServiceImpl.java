@@ -37,4 +37,14 @@ public class AccountServiceImpl implements AccountService {
         System.out.println(account);
         System.out.println("Account Details Saved");
     }
+
+    @Override
+    public Account getAccountDetails(Long userId) {
+        User userFromDb = userRepository.findById(userId).get();
+        Account account = userFromDb.getAccount();
+        System.out.println("Account Returned.");
+        return account;
+    }
+
+
 }

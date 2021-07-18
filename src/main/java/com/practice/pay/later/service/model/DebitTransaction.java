@@ -11,8 +11,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = "account")
 @Table(
+        uniqueConstraints = @UniqueConstraint(
+                name = "unique_orderId",
+                columnNames = "orderId"
+        ),
         indexes = @Index(
                 name = "idx_amount_transactionDate_status",
                 columnList = "amount,transactionDate,status"
@@ -30,7 +34,7 @@ public class DebitTransaction {
             strategy = GenerationType.SEQUENCE,
             generator = "debitTransactionId_sequence"
     )
-    private String debitTransactionId;
+    private Long debitTransactionId;
     private int amount;
     @Column(
             updatable = false,
@@ -42,6 +46,7 @@ public class DebitTransaction {
 
     @ManyToOne(
             cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
             optional = false
     )
     @JoinColumn(
