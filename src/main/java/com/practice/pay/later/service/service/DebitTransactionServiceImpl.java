@@ -50,10 +50,9 @@ public class DebitTransactionServiceImpl implements DebitTransactionService{
     }
 
     @Override
-    public List<ArrayList> getAllDebitTransaction(Long userId,
-                                                  Long accountId) {
+    public List<ArrayList> getAllDebitTransaction(Long accountId) {
 
-        return debitTransactionRepository.getAllDebitTransaction();
+        return debitTransactionRepository.getAllDebitTransaction(accountId);
     }
 
 }

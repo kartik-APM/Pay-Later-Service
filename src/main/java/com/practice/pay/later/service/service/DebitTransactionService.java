@@ -8,11 +8,10 @@ import java.util.List;
 
 public interface DebitTransactionService {
 
-    public void addDebitTransaction(DebitTransaction debitTransaction,
-                                    Long userId,
-                                    Long accountId);
+    void addDebitTransaction(DebitTransaction debitTransaction,
+                             Long userId,
+                             Long accountId);
 
-    public List<ArrayList> getAllDebitTransaction(Long userId,
-                                                  Long accountId);
+    List<ArrayList> getAllDebitTransaction(Long accountId);
 
 }
