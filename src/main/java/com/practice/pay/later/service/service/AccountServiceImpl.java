@@ -1,6 +1,7 @@
 package com.practice.pay.later.service.service;
 
 
+import com.practice.pay.later.service.exception.NotFoundException;
 import com.practice.pay.later.service.model.Account;
 import com.practice.pay.later.service.model.User;
 import com.practice.pay.later.service.repository.AccountRepository;
@@ -35,14 +36,13 @@ public class AccountServiceImpl implements AccountService {
         account.setAvailableCreditLimit(account.getAuthorisedCreditLimit());
         accountRepository.save(account);
         System.out.println(account);
-        System.out.println("Account Details Saved");
     }
 
     @Override
     public Account getAccountDetails(Long userId) {
-        User userFromDb = userRepository.findById(userId).get();
+        User userFromDb = userRepository.findById(userId).orElseThrow(()
+                -> new NotFoundException("User not found with UserId: "+ userId));
         Account account = userFromDb.getAccount();
-        System.out.println("Account Returned.");
         return account;
     }
 

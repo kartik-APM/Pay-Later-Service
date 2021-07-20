@@ -1,26 +1,27 @@
 package com.practice.pay.later.service.service;
 
 
+import com.practice.pay.later.service.exception.NotFoundException;
 import com.practice.pay.later.service.model.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    public User addUser(User user);
+    User addUser(User user);
 
-    public List<User> getAllUser();
+    List<User> getAllUser();
 
-    public User getUserById(Long userId);
+    User getUserById(Long userId) throws NotFoundException;
 
-    public List<User> getUserByFirstName(String firstName);
+    List<User> getUserByFirstName(String firstName);
 
-    public List<User> getUserByLastName(String lastName);
+    List<User> getUserByLastName(String lastName);
 
-    public User getUserByEmailId(String emailId);
+    User getUserByEmailId(String emailId);
 
-    public User updateUserDetails(User user, Long userId);
+    void updateUserDetails(User user, Long userId);
 
-    public void updateAddressDetails(User user, Long userId);
+    void updateAddressDetails(User user, Long userId);
 
 }

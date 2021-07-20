@@ -1,6 +1,7 @@
 package com.practice.pay.later.service.service;
 
 
+import com.practice.pay.later.service.exception.NotFoundException;
 import com.practice.pay.later.service.model.Address;
 import com.practice.pay.later.service.model.User;
 import com.practice.pay.later.service.repository.UserRepository;
@@ -26,9 +27,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() ->
-                new IllegalStateException("User with id "+userId+" does not exist"));
+    public User getUserById(Long userId) throws NotFoundException {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found with UserId: "+ userId));
     }
 
     @Override
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
-    public User updateUserDetails(User user, Long userId) {
+    public void updateUserDetails(User user, Long userId) {
         User userFromDb = userRepository.findById(userId).get();
         String str;
 
@@ -78,7 +79,7 @@ public class UserServiceImpl implements UserService {
         str = user.getPhoneNumber();
         updatePhoneNumber(userFromDb, str);
 
-        return userRepository.save(userFromDb);
+        userRepository.save(userFromDb);
     }
 
     public void updateStreet(Address address, String str) {
