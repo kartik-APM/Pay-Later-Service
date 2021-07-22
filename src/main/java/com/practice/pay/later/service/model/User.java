@@ -27,22 +27,14 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            initialValue = 100001,
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
-    @Column(
-            updatable = false,
-            nullable = false
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Long userId;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
 
     @Column(
@@ -50,6 +42,7 @@ public class User {
             updatable = false
     )
     private String emailId;
+
     private String phoneNumber;
 
     @Embedded
@@ -60,7 +53,7 @@ public class User {
     // printAllUser() is called
 
     @OneToOne(
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             fetch = FetchType.LAZY,
             mappedBy = "user"
     )

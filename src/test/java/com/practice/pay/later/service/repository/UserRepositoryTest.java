@@ -19,17 +19,17 @@ class UserRepositoryTest {
     @Test
     public void saveUser(){
         Address address = Address.builder()
-                .street("Goinganj")
+                .street("Goshinganj")
                 .city("Gkp")
                 .state("U.P.")
-                .pin("221010")
+                .pin("224152")
                 .build();
 
         User user = User.builder()
-                .emailId("abc146@gmail.com")
+                .emailId("hp@gmail.com")
                 .firstName("Harsh")
-                .phoneNumber("7348906723")
-                .lastName("Pandey")
+                .lastName("Panday")
+                .phoneNumber("7098906723")
                 .address(address)
                 .build();
 
@@ -42,5 +42,14 @@ class UserRepositoryTest {
                 userRepository.findAll();
 
         System.out.println("User List =" + users);
+    }
+
+    @Test
+    public void getUserById(){
+        User user =
+                userRepository.findById(1L).get();
+
+        System.out.println("User with id(6): "+ user);
+
     }
 }

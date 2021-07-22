@@ -35,9 +35,9 @@ public class RefundServiceImpl implements RefundService{
         Account accountFromDb = accountRepository.findById(accountId).get();
 
         refund.setAccount(accountFromDb);
-        refund.setTransactionDate(stringDate);
+        refund.setTransactionDate(date);
         refund.setStatus("200 OK");
-        accountFromDb.setDateAccountUpdated(stringDate);
+        //accountFromDb.setDateAccountUpdated(stringDate);
 
         int x = accountFromDb.getAuthorisedCreditLimit();
         int newAmount = accountFromDb.getAvailableCreditLimit() + refund.getAmount();

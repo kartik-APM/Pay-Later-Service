@@ -16,4 +16,8 @@ public interface DebitTransactionRepository extends JpaRepository<DebitTransacti
             "FROM DebitTransaction")
     List<ArrayList> getAllDebitTransaction(Long accountId);
 
+
+//    @Query("SELECT s from DebitTransaction s WHERE s.accountID = ?1")
+//    List<DebitTransaction> allTransactions(Long accountId);
+
 }

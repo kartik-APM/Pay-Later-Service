@@ -3,10 +3,14 @@ package com.practice.pay.later.service.controller;
 
 import com.practice.pay.later.service.converter.UserConverter;
 import com.practice.pay.later.service.dto.UserDTO;
+import com.practice.pay.later.service.exception.ApiResponse;
+import com.practice.pay.later.service.exception.NotFoundException;
 import com.practice.pay.later.service.model.User;
 import com.practice.pay.later.service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,24 +24,44 @@ public class UserController {
     @Autowired private UserConverter userConverter;
 
     @PostMapping("/users")
-    public User addUser(@RequestBody User user){
-        return userService.addUser(user);
+    public void addUser(@RequestBody User user){
+        userService.addUser(user);
     }
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<UserDTO> getAllUser(){
+    ResponseEntity<ApiResponse<List<UserDTO>>> getAllUser(){
+        ApiResponse<List<UserDTO>> apiResponse= new ApiResponse<>();
 
-        List<User> users = userService.getAllUser();
+        try {
+            List<User> users = userService.getAllUser();
+            List<UserDTO> userDTOS = userConverter.userToDTOList(users);
+            apiResponse.setData(userDTOS);
+            return new ResponseEntity<ApiResponse<List<UserDTO>>>(apiResponse,HttpStatus.OK);
+        }catch (NotFoundException e){
 
-        return userConverter.userToDTOList(users);
+        }
+
+        apiResponse.setMessage("User not found");
+        apiResponse.setStatus("Fail");
+        return new ResponseEntity<ApiResponse<List<UserDTO>>>(apiResponse,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/users/{id}")
-    public UserDTO getUserById(@PathVariable("id") Long userId){
+    ResponseEntity<ApiResponse<UserDTO>> getUserById(@PathVariable("id") Long userId){
+        ApiResponse<UserDTO> apiResponse= new ApiResponse<>();
 
-        User user = userService.getUserById(userId);
+        try {
+            User user = userService.getUserById(userId);
+            UserDTO userDTO = userConverter.userToDTO(user);
+            apiResponse.setData(userDTO);
+            return new ResponseEntity<ApiResponse<UserDTO>>(apiResponse,HttpStatus.OK);
+        }catch (NotFoundException e){
 
-        return userConverter.userToDTO(user);
+        }
+
+        apiResponse.setMessage("User not found");
+        apiResponse.setStatus("Fail");
+        return new ResponseEntity<ApiResponse<UserDTO>>(apiResponse,HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/users/firstName/{id}")

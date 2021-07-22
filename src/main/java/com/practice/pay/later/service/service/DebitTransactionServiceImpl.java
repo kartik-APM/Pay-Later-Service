@@ -16,11 +16,9 @@ import java.util.List;
 @Service
 public class DebitTransactionServiceImpl implements DebitTransactionService{
 
-    @Autowired
-    private AccountRepository accountRepository;
+    @Autowired private AccountRepository accountRepository;
 
-    @Autowired
-    private DebitTransactionRepository debitTransactionRepository;
+    @Autowired private DebitTransactionRepository debitTransactionRepository;
 
     @Override
     public void addDebitTransaction(DebitTransaction debitTransaction,
@@ -34,7 +32,6 @@ public class DebitTransactionServiceImpl implements DebitTransactionService{
         Account accountFromDb = accountRepository.findById(accountId).get();
 
         debitTransaction.setAccount(accountFromDb);
-        debitTransaction.setTransactionDate(stringDate);
 
         int x = accountFromDb.getAvailableCreditLimit() - debitTransaction.getAmount();
 
@@ -42,17 +39,22 @@ public class DebitTransactionServiceImpl implements DebitTransactionService{
             System.out.println("Invalid Operation.");
             debitTransaction.setStatus("Failed");
         }else {
-            accountFromDb.setDateAccountUpdated(stringDate);
+            //accountFromDb.setDateAccountUpdated(stringDate);
             accountFromDb.setAvailableCreditLimit(x);
             debitTransaction.setStatus("200 OK");
         }
         debitTransactionRepository.save(debitTransaction);
     }
 
-    @Override
-    public List<ArrayList> getAllDebitTransaction(Long accountId) {
+//    @Override
+//    public List<ArrayList> getAllDebitTransaction(Long accountId) {
+//
+//        return debitTransactionRepository.getAllDebitTransaction(accountId);
+//    }
 
-        return debitTransactionRepository.getAllDebitTransaction(accountId);
-    }
-
+//    @Override
+//    public List<DebitTransaction> allTransaction(Long accountId) {
+//
+//        return debitTransactionRepository.allTransactions(accountId);
+//    }
 }

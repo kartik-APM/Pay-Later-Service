@@ -2,6 +2,7 @@ package com.practice.pay.later.service.model;
 
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -31,8 +32,15 @@ public class Repayment {
             generator = "repaymentTransactionId_sequence"
     )
     private Long repaymentTransactionId;
+
+    @Column(nullable = false)
     private int amount;
-    private String transactionDate;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
+    private Date transactionDate;
+
     private String status;
 
     @ManyToOne(

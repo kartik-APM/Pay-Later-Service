@@ -2,8 +2,10 @@ package com.practice.pay.later.service.model;
 
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -30,13 +32,21 @@ public class Refund {
             generator = "refundTransactionId_sequence"
     )
     private Long refundTransactionId;
+
+    @Column(nullable = false)
     private int amount;
+
     @Column(
             updatable = false,
             nullable = false
     )
     private Long originalTransactionId;
-    private String transactionDate;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
+    private Date transactionDate;
+
     private String status;
 
     @ManyToOne(

@@ -28,14 +28,12 @@ public class RepaymentServiceImpl implements RepaymentService {
                              Long accountId) {
 
         Date date = new Date();
-        SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
-        String stringDate = DateFor.format(date);
 
         Account accountFromDb = accountRepository.findById(accountId).get();
 
         repayment.setAccount(accountFromDb);
-        repayment.setTransactionDate(stringDate);
-        accountFromDb.setDateAccountUpdated(stringDate);
+        repayment.setTransactionDate(date);
+        accountFromDb.setDateAccountUpdated(date);
         accountFromDb.setAvailableCreditLimit(repayment.getAmount()
                 + accountFromDb.getAvailableCreditLimit());
         repayment.setStatus("200 OK");

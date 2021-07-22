@@ -15,11 +15,8 @@ import java.util.Date;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private AccountRepository accountRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private AccountRepository accountRepository;
 
     @Override
     public void addAccountDetails(Account account, Long userId) {
@@ -31,11 +28,12 @@ public class AccountServiceImpl implements AccountService {
         User userFromDb = userRepository.findById(userId).get();
 
         account.setUser(userFromDb);
-        account.setDateAccountCreated(stringDate);
-        account.setDateAccountUpdated(stringDate);
+        //account.setDateAccountCreated(stringDate);
+        //account.setDateAccountUpdated(stringDate);
         account.setAvailableCreditLimit(account.getAuthorisedCreditLimit());
         accountRepository.save(account);
         System.out.println(account);
+        //throw new Success("Account created Successfully");
     }
 
     @Override

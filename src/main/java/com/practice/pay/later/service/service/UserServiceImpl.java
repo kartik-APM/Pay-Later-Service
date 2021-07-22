@@ -18,12 +18,15 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public void addUser(User user) {
+        userRepository.save(user);
     }
 
     @Override
-    public List<User> getAllUser() { return userRepository.findAll();
+    public List<User> getAllUser() throws NotFoundException{
+        List<User> users = userRepository.findAll();
+        if(users.isEmpty())   throw new NotFoundException("No user found");
+        return users;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.practice.pay.later.service.model;
 
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -35,13 +36,22 @@ public class DebitTransaction {
             generator = "debitTransactionId_sequence"
     )
     private Long debitTransactionId;
+
+    @Column(nullable = false)
     private int amount;
+
     @Column(
             updatable = false,
             nullable = false
     )
     private String orderId;
-    private String transactionDate;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false)
+    private Date transactionDate;
+
+
     private String status;
 
     @ManyToOne(
@@ -50,7 +60,7 @@ public class DebitTransaction {
             optional = false
     )
     @JoinColumn(
-            name = "accountDetails",
+            name = "accountID",
             referencedColumnName = "accountId"
     )
     private Account account;

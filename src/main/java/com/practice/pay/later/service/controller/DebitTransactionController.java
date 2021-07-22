@@ -3,6 +3,7 @@ package com.practice.pay.later.service.controller;
 
 import com.practice.pay.later.service.model.DebitTransaction;
 import com.practice.pay.later.service.service.DebitTransactionService;
+import com.practice.pay.later.service.service.DebitTransactionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +24,16 @@ public class DebitTransactionController {
         debitTransactionService.addDebitTransaction(debitTransaction, userId, accountId);
     }
 
-    @GetMapping("/users/{id}/accounts/{id2}/debit")
-    public List<ArrayList> getAllDebitTransaction(@PathVariable("id2") Long accountId) {
+//    @GetMapping("/users/{id}/accounts/{id2}/debit")
+//    public List<ArrayList> getAllDebitTransaction(@PathVariable("id2") Long accountId) {
+//
+//        return debitTransactionService.getAllDebitTransaction(accountId);
+//    }
 
-        return debitTransactionService.getAllDebitTransaction(accountId);
-    }
+//    @GetMapping("/users/{id}/accounts/{id2}/debit")
+//    public List<DebitTransaction> getAllDebitTransaction(@PathVariable("id2") Long accountId) {
+//
+//        return debitTransactionService.allTransaction(accountId);
+//    }
 
 }

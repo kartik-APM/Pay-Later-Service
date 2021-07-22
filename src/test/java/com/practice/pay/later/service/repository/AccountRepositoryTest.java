@@ -13,22 +13,18 @@ import java.util.List;
 @SpringBootTest
 class AccountRepositoryTest {
 
-    @Autowired
-    private AccountRepository accountRepository;
+    @Autowired private AccountRepository accountRepository;
+    @Autowired private UserRepository userRepository;
 
     @Test
     public void saveAccount(){
 
-        Date date = new Date();
-
-        User user = User.builder()
-                .firstName("KKp")
-                .emailId("kkpNEW.p@gmail.com")
-                .build();
+        User user =
+                userRepository.findById(1L).get();
 
         Account account = Account.builder()
                 .authorisedCreditLimit(30000)
-                .availableCreditLimit(3000)
+                .dateAccountCreated(new Date())
                 .user(user)
                 .build();
 
