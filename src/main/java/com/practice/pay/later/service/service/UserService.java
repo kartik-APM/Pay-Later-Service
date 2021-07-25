@@ -1,6 +1,8 @@
 package com.practice.pay.later.service.service;
 
 
+import com.practice.pay.later.service.dto.UserDTO;
+import com.practice.pay.later.service.exception.ApiResponse;
 import com.practice.pay.later.service.exception.NotFoundException;
 import com.practice.pay.later.service.model.User;
 
@@ -8,9 +10,9 @@ import java.util.List;
 
 public interface UserService {
 
-    void addUser(User user);
+    ApiResponse<String> addUser(UserDTO userDTO);
 
-    List<User> getAllUser();
+    ApiResponse<List<UserDTO>> getAllUser();
 
     User getUserById(Long userId) throws NotFoundException;
 

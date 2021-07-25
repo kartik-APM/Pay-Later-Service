@@ -1,5 +1,6 @@
 package com.practice.pay.later.service.repository;
 
+import com.practice.pay.later.service.enums.Status;
 import com.practice.pay.later.service.model.Account;
 import com.practice.pay.later.service.model.Refund;
 import com.practice.pay.later.service.model.Repayment;
@@ -7,6 +8,7 @@ import com.practice.pay.later.service.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 
@@ -31,7 +33,7 @@ class RepaymentRepositoryTest {
 
         Repayment repayment = Repayment.builder()
                 .amount(12340)
-                .status("OK! 200")
+                .status(Status.SUCCESSFUL)
                 .account(account)
                 .build();
 

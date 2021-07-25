@@ -1,8 +1,10 @@
 package com.practice.pay.later.service.model;
 
 
+import com.practice.pay.later.service.enums.Status;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,15 +24,8 @@ import java.util.Date;
 public class Refund {
 
     @Id
-    @SequenceGenerator(
-            name = "refundTransactionId_sequence",
-            sequenceName = "refundTransactionId_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "refundTransactionId_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Long refundTransactionId;
 
     @Column(nullable = false)
@@ -47,7 +42,7 @@ public class Refund {
     @Column(updatable = false)
     private Date transactionDate;
 
-    private String status;
+    private Status status;
 
     @ManyToOne(
             cascade = CascadeType.ALL,

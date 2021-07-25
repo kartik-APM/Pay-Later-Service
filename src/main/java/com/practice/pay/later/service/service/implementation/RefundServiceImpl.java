@@ -1,11 +1,14 @@
-package com.practice.pay.later.service.service;
+package com.practice.pay.later.service.service.implementation;
 
 
+import com.practice.pay.later.service.enums.Status;
 import com.practice.pay.later.service.model.Account;
 import com.practice.pay.later.service.model.Refund;
 import com.practice.pay.later.service.repository.AccountRepository;
 import com.practice.pay.later.service.repository.RefundRepository;
+import com.practice.pay.later.service.service.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -14,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class RefundServiceImpl implements RefundService{
+public class RefundServiceImpl implements RefundService {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -36,8 +39,7 @@ public class RefundServiceImpl implements RefundService{
 
         refund.setAccount(accountFromDb);
         refund.setTransactionDate(date);
-        refund.setStatus("200 OK");
-        //accountFromDb.setDateAccountUpdated(stringDate);
+        refund.setStatus(Status.SUCCESSFUL);
 
         int x = accountFromDb.getAuthorisedCreditLimit();
         int newAmount = accountFromDb.getAvailableCreditLimit() + refund.getAmount();

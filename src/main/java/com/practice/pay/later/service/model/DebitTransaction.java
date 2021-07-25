@@ -1,6 +1,7 @@
 package com.practice.pay.later.service.model;
 
 
+import com.practice.pay.later.service.enums.Status;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -26,15 +27,8 @@ import java.util.Date;
 public class DebitTransaction {
 
     @Id
-    @SequenceGenerator(
-            name = "debitTransactionId_sequence",
-            sequenceName = "debitTransactionId_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "debitTransactionId_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Long debitTransactionId;
 
     @Column(nullable = false)
@@ -51,8 +45,7 @@ public class DebitTransaction {
     @Column(updatable = false)
     private Date transactionDate;
 
-
-    private String status;
+    private Status status;
 
     @ManyToOne(
             cascade = CascadeType.ALL,

@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class AccountDTO {
 
+    private Long userID;
     private Long accountId;
     private int authorisedCreditLimit;
     private int availableCreditLimit;
