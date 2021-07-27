@@ -1,11 +1,8 @@
 package com.practice.pay.later.service.converter;
 
 import com.practice.pay.later.service.dto.UserDTO;
-import com.practice.pay.later.service.exception.NotFoundException;
 import com.practice.pay.later.service.model.User;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

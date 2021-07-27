@@ -1,6 +1,8 @@
 package com.practice.pay.later.service.service;
 
 
+import com.practice.pay.later.service.dto.DebitTransactionDTO;
+import com.practice.pay.later.service.exception.ApiResponse;
 import com.practice.pay.later.service.model.DebitTransaction;
 
 import java.util.ArrayList;
@@ -8,12 +10,12 @@ import java.util.List;
 
 public interface DebitTransactionService {
 
-    void addDebitTransaction(DebitTransaction debitTransaction,
-                             Long userId,
-                             Long accountId);
+    ApiResponse<String> processDebitTransaction(
+            DebitTransactionDTO debitTransactionDTO,
+            Long userId,
+            Long accountId);
 
-//    List<ArrayList> getAllDebitTransaction(Long accountId);
 
-//    List<DebitTransaction> allTransaction(Long accountId);
+    List<ArrayList> getAllDebitTransaction(Long accountId);
 
 }

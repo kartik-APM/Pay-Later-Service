@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    public List<User> findByFirstNameIgnoreCase(String firstName);
+    List<User> findByFirstNameIgnoreCase(String firstName);
 
-    public List<User> findByLastNameIgnoreCase(String lstName);
+    List<User> findByLastNameIgnoreCase(String lstName);
 
-    public User findByEmailId(String emailId);
+    User findByEmailId(String emailId);
 
     @Query("SELECT s FROM User s WHERE s.emailId = ?1")
     Optional<User> findUserByEmail(String emailId);

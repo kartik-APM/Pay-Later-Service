@@ -21,18 +21,20 @@ import java.util.Objects;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private UserConverter userConverter;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserConverter userConverter;
 
 
     @Override
     public ApiResponse<String> addUser(UserDTO userDTO) {
 
-        log.info("Creating User with EmailID {}",userDTO.getEmailId());
+        log.info("Creating User with EmailID {}", userDTO.getEmailId());
         ApiResponse<String> apiResponse = new ApiResponse<>();
         User user1 = this.userRepository.findByEmailId(userDTO.getEmailId());
 
-        if(null != user1){
+        if (null != user1) {
             try {
                 throw new SQLException("Email ID is already taken.");
             } catch (SQLException e) {
@@ -40,29 +42,29 @@ public class UserServiceImpl implements UserService {
                 apiResponse.setStatus(Status.FAILURE);
                 apiResponse.setMessage(e.getMessage());
             }
-        }else{
+        } else {
             User user = this.userConverter.DtoToUser(userDTO);
             this.userRepository.save(user);
             apiResponse.setMessage("User Created Successfully");
-            log.info("User created with EmailID {}",userDTO.getEmailId());
+            log.info("User created with EmailID {}", userDTO.getEmailId());
         }
         return apiResponse;
     }
 
     @Override
-    public ApiResponse<List<UserDTO>> getAllUser() throws NotFoundException{
+    public ApiResponse<List<UserDTO>> getAllUser() throws NotFoundException {
 
         log.info("Fetching details of all the users.");
         ApiResponse<List<UserDTO>> apiResponse = new ApiResponse<>();
         List<User> users = userRepository.findAll();
 
-        if(users.isEmpty()) {
-            try{
+        if (users.isEmpty()) {
+            try {
                 throw new NotFoundException("No User Exist");
-            } catch (NotFoundException e){
+            } catch (NotFoundException e) {
                 apiResponse.setMessage(e.getMessage());
             }
-        }else {
+        } else {
             List<UserDTO> userDTOS = this.userConverter.userToDTOList(users);
             apiResponse.setData(userDTOS);
             apiResponse.setMessage("All users Fetched Successfully");
@@ -72,29 +74,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long userId) throws NotFoundException {
-        log.info("Starting user Service Implementation for {}",userId);
+        log.info("Starting user Service Implementation for {}", userId);
         return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found with UserId: "+ userId));
+                .orElseThrow(() -> new NotFoundException("User not found with UserId: " + userId));
     }
 
     @Override
-    public List<User> getUserByFirstName(String firstName) throws NotFoundException{
+    public List<User> getUserByFirstName(String firstName) throws NotFoundException {
         List<User> users = userRepository.findByFirstNameIgnoreCase(firstName);
-        if(users.isEmpty())     throw new NotFoundException("");
+        if (users.isEmpty()) throw new NotFoundException("");
         return users;
     }
 
     @Override
-    public List<User> getUserByLastName(String lastName) throws NotFoundException{
+    public List<User> getUserByLastName(String lastName) throws NotFoundException {
         List<User> users = userRepository.findByLastNameIgnoreCase(lastName);
-        if(users.isEmpty())     throw new NotFoundException();
+        if (users.isEmpty()) throw new NotFoundException();
         return users;
     }
 
     @Override
-    public User getUserByEmailId(String emailId) throws NullPointerException{
+    public User getUserByEmailId(String emailId) throws NullPointerException {
         User user = userRepository.findByEmailId(emailId);
-        if(user == null)        throw new NullPointerException();
+        if (user == null) throw new NullPointerException();
         return userRepository.findByEmailId(emailId);
     }
 
@@ -104,18 +106,21 @@ public class UserServiceImpl implements UserService {
             user.setFirstName(str);
         }
     }
+
     public void updateLastName(User user, String str) {
         if (Objects.nonNull(str) &&
                 !"".equalsIgnoreCase(str)) {
             user.setLastName(str);
         }
     }
+
     public void updatePhoneNumber(User user, String str) {
         if (Objects.nonNull(str) &&
                 !"".equalsIgnoreCase(str)) {
             user.setPhoneNumber(str);
         }
     }
+
     @Override
     public void updateUserDetails(User user, Long userId) {
         User userFromDb = userRepository.findById(userId).get();
@@ -139,24 +144,28 @@ public class UserServiceImpl implements UserService {
             address.setStreet(str);
         }
     }
+
     public void updateCity(Address address, String str) {
         if (Objects.nonNull(str) &&
                 !"".equalsIgnoreCase(str)) {
             address.setCity(str);
         }
     }
+
     public void updateState(Address address, String str) {
         if (Objects.nonNull(str) &&
                 !"".equalsIgnoreCase(str)) {
             address.setState(str);
         }
     }
+
     public void updatePin(Address address, String str) {
         if (Objects.nonNull(str) &&
                 !"".equalsIgnoreCase(str)) {
             address.setPin(str);
         }
     }
+
     @Override
     public void updateAddressDetails(User user, Long userId) {
         User userFromDb = userRepository.findById(userId).get();

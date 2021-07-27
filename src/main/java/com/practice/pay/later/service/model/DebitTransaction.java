@@ -53,7 +53,7 @@ public class DebitTransaction {
             optional = false
     )
     @JoinColumn(
-            name = "accountID",
+            name = "accountId",
             referencedColumnName = "accountId"
     )
     private Account account;

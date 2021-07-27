@@ -9,15 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public interface DebitTransactionRepository extends JpaRepository<DebitTransaction,Long> {
+public interface DebitTransactionRepository extends JpaRepository<DebitTransaction, Long> {
 
     @Query("SELECT " +
-            "debitTransactionId, amount, orderId, transactionDate, status " +
-            "FROM DebitTransaction")
+            "debitTransactionId, amount, orderId, transactionDate, status, account.accountId " +
+            "FROM DebitTransaction WHERE account.accountId = ?1")
     List<ArrayList> getAllDebitTransaction(Long accountId);
-
-
-//    @Query("SELECT s from DebitTransaction s WHERE s.accountID = ?1")
-//    List<DebitTransaction> allTransactions(Long accountId);
 
 }
