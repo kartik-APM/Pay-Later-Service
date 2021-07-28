@@ -36,7 +36,7 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users")
     ResponseEntity<ApiResponse<List<UserDTO>>> getAllUser() {
         return new ResponseEntity<ApiResponse<List<UserDTO>>>(userService.getAllUser(),
                 HttpStatus.OK);
@@ -44,21 +44,8 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     ResponseEntity<ApiResponse<UserDTO>> getUserById(@PathVariable("id") @NotNull Long userId) {
-        ApiResponse<UserDTO> apiResponse = new ApiResponse<>();
-
-        try {
-            User user = userService.getUserById(userId);
-            UserDTO userDTO = userConverter.userToDTO(user);
-            apiResponse.setData(userDTO);
-            //ApiResponse<UserDTO> apiResponse1 =  (ApiResponse<UserDTO>) ApiResponse.builder().data(userDTO).build();
-            return new ResponseEntity<ApiResponse<UserDTO>>(apiResponse, HttpStatus.OK);
-        } catch (NotFoundException e) {
-            apiResponse.setMessage("No User exist with User ID " + userId);
-        } catch (Exception e) {
-            apiResponse.setStatus(Status.FAILURE);
-        }
-
-        return new ResponseEntity<ApiResponse<UserDTO>>(apiResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ApiResponse<UserDTO>>(userService.getUserById(userId),
+                HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/users/firstName/{id}")

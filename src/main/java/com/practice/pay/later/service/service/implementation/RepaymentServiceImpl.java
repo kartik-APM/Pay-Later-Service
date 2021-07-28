@@ -41,7 +41,7 @@ public class RepaymentServiceImpl implements RepaymentService {
     @Override
     public List<ArrayList> getAllRepayment(Long accountId) {
 
-        return repaymentRepository.getAllRepayments();
+        return repaymentRepository.getAllRepayments(accountId);
     }
 
 }

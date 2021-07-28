@@ -9,6 +9,7 @@ import com.practice.pay.later.service.model.Address;
 import com.practice.pay.later.service.model.User;
 import com.practice.pay.later.service.repository.UserRepository;
 import com.practice.pay.later.service.service.UserService;
+import com.practice.pay.later.service.validation.UserValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private UserConverter userConverter;
+    @Autowired
+    private UserValidation userValidation;
 
 
     @Override
@@ -32,6 +35,16 @@ public class UserServiceImpl implements UserService {
 
         log.info("Creating User with EmailID {}", userDTO.getEmailId());
         ApiResponse<String> apiResponse = new ApiResponse<>();
+
+        /**
+         * Check for Valid EmailID
+         */
+        if(!userValidation.emailCheck(userDTO.getEmailId())){
+            apiResponse.setStatus(Status.FAILURE);
+            apiResponse.setMessage("Email Id is wrong.");
+            return apiResponse;
+        }
+
         User user1 = this.userRepository.findByEmailId(userDTO.getEmailId());
 
         if (null != user1) {
@@ -73,10 +86,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long userId) throws NotFoundException {
+    public ApiResponse<UserDTO> getUserById(Long userId) throws NotFoundException {
+
         log.info("Starting user Service Implementation for {}", userId);
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found with UserId: " + userId));
+        ApiResponse<UserDTO> apiResponse = new ApiResponse<>();
+        User userFromDb=null;
+
+        try{
+            userFromDb = this.userRepository.findById(userId).get();
+        }catch (Exception e){
+            log.info(e.getMessage());
+            apiResponse.setStatus(Status.FAILURE);
+            apiResponse.setMessage("No user exist with userId " + userId);
+            log.info("Processing Failed while Fetching User");
+            return apiResponse;
+        }
+
+        UserDTO userDTO = userConverter.userToDTO(userFromDb);
+        apiResponse.setData(userDTO);
+        apiResponse.setMessage("User Fetched Successfully");
+        log.info("Finishing user Service Implementation for {}", userId);
+        return apiResponse;
     }
 
     @Override

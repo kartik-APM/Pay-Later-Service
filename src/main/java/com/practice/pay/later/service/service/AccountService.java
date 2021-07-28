@@ -9,5 +9,5 @@ public interface AccountService {
 
     ApiResponse<String> addAccountDetails(AccountDTO accountDTO, Long userId);
 
-    Account getAccountDetails(Long userId);
+    ApiResponse<AccountDTO> getAccountDetails(Long userId);
 }

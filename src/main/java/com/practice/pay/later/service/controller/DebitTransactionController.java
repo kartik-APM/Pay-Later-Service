@@ -36,7 +36,7 @@ public class DebitTransactionController {
     }
 
     @GetMapping("/users/{id}/accounts/{id2}/debit")
-    public List<ArrayList> getAllDebitTransaction(@PathVariable("id2") Long accountId) {
+    public List<DebitTransactionDTO> getAllDebitTransaction(@PathVariable("id2") Long accountId) {
 
         return debitTransactionService.getAllDebitTransaction(accountId);
     }

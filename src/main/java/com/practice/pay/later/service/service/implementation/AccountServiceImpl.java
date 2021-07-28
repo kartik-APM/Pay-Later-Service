@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @Slf4j
 public class AccountServiceImpl implements AccountService {
@@ -29,7 +28,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ApiResponse<String> addAccountDetails(AccountDTO accountDTO,
                                                  Long userId) {
-
         log.info("Creating Account of User with UserID {}", userId);
         ApiResponse<String> apiResponse = new ApiResponse<>();
         User userFromDb = this.userRepository.findById(userId).get();
@@ -55,11 +53,35 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account getAccountDetails(Long userId) {
-        User userFromDb = userRepository.findById(userId).orElseThrow(()
-                -> new NotFoundException("User not found with UserId: " + userId));
-        Account account = userFromDb.getAccount();
-        return account;
+    public ApiResponse<AccountDTO> getAccountDetails(Long userId) throws NotFoundException {
+        log.info("Fetching Account of User with UserID {}", userId);
+        ApiResponse<AccountDTO> apiResponse = new ApiResponse<>();
+        User userFromDb = null;
+        Account accountFromDb = null;
+
+        try {
+            userFromDb = this.userRepository.findById(userId).get();
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            apiResponse.setStatus(Status.FAILURE);
+            apiResponse.setMessage("No user exist with userId " + userId);
+            log.info("Processing Failed while Fetching User");
+            return apiResponse;
+        }
+        try {
+            accountFromDb = this.accountRepository.findById(userFromDb.getAccount().getAccountId()).get();
+        } catch (NullPointerException e) {
+            log.info(e.getMessage());
+            apiResponse.setStatus(Status.SUCCESSFUL);
+            apiResponse.setMessage("No Account exist for user with userId " + userId);
+            log.info("Processing Failed while Fetching Account");
+            return apiResponse;
+        }
+        log.info("Account Fetched Successfully.");
+        AccountDTO accountDTO = accountConverter.accountToDTO(accountFromDb);
+        apiResponse.setData(accountDTO);
+        apiResponse.setMessage("Account Information Fetched");
+        return apiResponse;
     }
 
 }

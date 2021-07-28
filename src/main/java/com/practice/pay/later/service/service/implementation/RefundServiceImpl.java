@@ -55,7 +55,7 @@ public class RefundServiceImpl implements RefundService {
     @Override
     public List<ArrayList> getAllRefunds(Long accountId) {
 
-        return refundRepository.getAllRefunds();
+        return refundRepository.getAllRefunds(accountId);
     }
 
 }

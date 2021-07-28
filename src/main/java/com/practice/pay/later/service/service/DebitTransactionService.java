@@ -16,6 +16,6 @@ public interface DebitTransactionService {
             Long accountId);
 
 
-    List<ArrayList> getAllDebitTransaction(Long accountId);
+    List<DebitTransactionDTO> getAllDebitTransaction(Long accountId);
 
 }

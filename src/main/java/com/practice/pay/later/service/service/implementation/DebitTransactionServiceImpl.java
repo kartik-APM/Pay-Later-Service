@@ -120,9 +120,11 @@ public class DebitTransactionServiceImpl implements DebitTransactionService {
 
 
     @Override
-    public List<ArrayList> getAllDebitTransaction(Long accountId) {
+    public List<DebitTransactionDTO> getAllDebitTransaction(Long accountId) {
 
-        return debitTransactionRepository.getAllDebitTransaction(accountId);
+        List<ArrayList> arrayLists =  debitTransactionRepository.getAllDebitTransaction(accountId);
+
+        return debitTransactionConverter.arrayListToDTOList(arrayLists);
     }
 
 }

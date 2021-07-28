@@ -4,7 +4,6 @@ package com.practice.pay.later.service.controller;
 import com.practice.pay.later.service.converter.AccountConverter;
 import com.practice.pay.later.service.dto.AccountDTO;
 import com.practice.pay.later.service.exception.ApiResponse;
-import com.practice.pay.later.service.model.Account;
 import com.practice.pay.later.service.service.AccountService;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +24,15 @@ public class AccountController {
     ResponseEntity<ApiResponse<String>> addAccountDetails(@RequestBody @NotNull AccountDTO accountDTO,
                                                           @PathVariable("id") @NotNull Long userId) {
         return new ResponseEntity<ApiResponse<String>>(
-                accountService.addAccountDetails(accountDTO, userId),
+                this.accountService.addAccountDetails(accountDTO, userId),
                 HttpStatus.OK);
     }
 
     @GetMapping("users/{id}/accounts")
-    public AccountDTO getAccountDetails(@PathVariable("id") Long userId) {
-
-        Account account = accountService.getAccountDetails(userId);
-
-        return accountConverter.accountToDTO(account);
+    public ResponseEntity<ApiResponse<AccountDTO>> getAccountDetails(@PathVariable("id") @NotNull Long userId) {
+        return new ResponseEntity<ApiResponse<AccountDTO>>(
+                this.accountService.getAccountDetails(userId),
+                HttpStatus.OK);
     }
 
 }

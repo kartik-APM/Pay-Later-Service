@@ -13,8 +13,8 @@ import java.util.List;
 public interface RefundRepository extends JpaRepository<Refund, Long> {
 
     @Query("SELECT " +
-            "refundTransactionId, amount, originalTransactionId, transactionDate, status " +
-            "FROM Refund")
-    public List<ArrayList> getAllRefunds();
+            "debitTransactionId, amount, orderId, transactionDate, status, account.accountId " +
+            "FROM DebitTransaction WHERE account.accountId = ?1")
+    List<ArrayList> getAllRefunds(Long accountId);
 
 }

@@ -14,7 +14,7 @@ public interface UserService {
 
     ApiResponse<List<UserDTO>> getAllUser();
 
-    User getUserById(Long userId) throws NotFoundException;
+    ApiResponse<UserDTO> getUserById(Long userId) throws NotFoundException;
 
     List<User> getUserByFirstName(String firstName);
 

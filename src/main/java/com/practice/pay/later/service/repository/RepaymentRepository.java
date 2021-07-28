@@ -12,8 +12,8 @@ import java.util.List;
 public interface RepaymentRepository extends JpaRepository<Repayment,String> {
 
     @Query("SELECT " +
-            "repaymentTransactionId, amount, transactionDate, status " +
-            "FROM Repayment")
-    public List<ArrayList> getAllRepayments();
+            "debitTransactionId, amount, orderId, transactionDate, status, account.accountId " +
+            "FROM DebitTransaction WHERE account.accountId = ?1")
+    List<ArrayList> getAllRepayments(Long accountId);
 
 }
