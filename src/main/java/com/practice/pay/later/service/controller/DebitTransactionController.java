@@ -20,17 +20,15 @@ public class DebitTransactionController {
     @Autowired
     private DebitTransactionService debitTransactionService;
 
-    @PostMapping("/users/{id}/accounts/{id2}/debit")
+    @PostMapping("/users/{id}/accounts/debit")
     ResponseEntity<ApiResponse<String>> processDebitTransaction(
             @RequestBody @NotNull DebitTransactionDTO debitTransactionDTO,
-            @PathVariable("id") @NotNull Long userId,
-            @PathVariable("id2") @NotNull Long accountId) {
+            @PathVariable("id") @NotNull Long userId) {
 
         return new ResponseEntity<ApiResponse<String>>(
                 debitTransactionService.processDebitTransaction(
                         debitTransactionDTO,
-                        userId,
-                        accountId),
+                        userId),
                 HttpStatus.OK);
 
     }

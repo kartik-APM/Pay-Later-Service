@@ -1,5 +1,6 @@
 package com.practice.pay.later.service.controller;
 
+
 import com.practice.pay.later.service.converter.UserConverter;
 import com.practice.pay.later.service.dto.UserDTO;
 import com.practice.pay.later.service.enums.Status;
@@ -24,28 +25,36 @@ import java.util.List;
 @RestController
 public class UserController {
 
+    private final UserService userService;
+    private final UserConverter userConverter;
     @Autowired
-    private UserService userService;
-    @Autowired
-    private UserConverter userConverter;
-
+    public UserController(
+            final UserService userService,
+            final UserConverter userConverter){
+        this.userService = userService;
+        this.userConverter = userConverter;
+    }
 
     @PostMapping("/users")
-    ResponseEntity<ApiResponse<String>> addNewUser(@RequestBody @NotNull UserDTO userDTO) {
-        return new ResponseEntity<ApiResponse<String>>(userService.addUser(userDTO),
-                HttpStatus.OK);
+    ResponseEntity<ApiResponse<String>> addNewUser(
+            @RequestBody @NotNull UserDTO userDTO) {
+
+        return new
+                ResponseEntity<ApiResponse<String>>(this.userService.addUser(userDTO), HttpStatus.OK);
     }
 
     @GetMapping(value = "/users")
     ResponseEntity<ApiResponse<List<UserDTO>>> getAllUser() {
-        return new ResponseEntity<ApiResponse<List<UserDTO>>>(userService.getAllUser(),
-                HttpStatus.OK);
+        return new
+                ResponseEntity<ApiResponse<List<UserDTO>>>(this.userService.getAllUser(), HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}")
-    ResponseEntity<ApiResponse<UserDTO>> getUserById(@PathVariable("id") @NotNull Long userId) {
-        return new ResponseEntity<ApiResponse<UserDTO>>(userService.getUserById(userId),
-                HttpStatus.NOT_FOUND);
+    ResponseEntity<ApiResponse<UserDTO>> getUserById(
+            @PathVariable("id") @NotNull Long userId) {
+
+        return new
+                ResponseEntity<ApiResponse<UserDTO>>(this.userService.getUserById(userId), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/users/firstName/{id}")

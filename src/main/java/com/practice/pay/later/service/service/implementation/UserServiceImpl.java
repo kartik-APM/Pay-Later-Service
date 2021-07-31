@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
@@ -22,13 +23,25 @@ import java.util.Objects;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserConverter userConverter;
-    @Autowired
-    private UserValidation userValidation;
+    private final UserRepository userRepository;
+    private final UserConverter userConverter;
+    private final UserValidation userValidation;
 
+    @Autowired
+    public UserServiceImpl(
+            final UserRepository userRepository,
+            final UserConverter userConverter,
+            final UserValidation userValidation) {
+        this.userRepository = userRepository;
+        this.userConverter = userConverter;
+        this.userValidation = userValidation;
+    }
+
+
+    @Transactional
+    public void saveUserData(final User user) {
+        this.userRepository.save(user);
+    }
 
     @Override
     public ApiResponse<String> addUser(UserDTO userDTO) {
@@ -36,20 +49,20 @@ public class UserServiceImpl implements UserService {
         log.info("Creating User with EmailID {}", userDTO.getEmailId());
         ApiResponse<String> apiResponse = new ApiResponse<>();
 
-        /**
-         * Check for Valid EmailID
-         */
-        if(!userValidation.emailCheck(userDTO.getEmailId())){
+        // Check if data input
+        // is valid or not
+        if (!userValidation.verifyUserData(userDTO)) {
             apiResponse.setStatus(Status.FAILURE);
-            apiResponse.setMessage("Email Id is wrong.");
+            apiResponse.setMessage("Input Data is wrong.");
             return apiResponse;
         }
 
+        // Check if User
+        // already exist or not
         User user1 = this.userRepository.findByEmailId(userDTO.getEmailId());
-
         if (null != user1) {
             try {
-                throw new SQLException("Email ID is already taken.");
+                throw new SQLException("Email ID is already taken");
             } catch (SQLException e) {
                 log.info(e.getMessage());
                 apiResponse.setStatus(Status.FAILURE);
@@ -57,7 +70,7 @@ public class UserServiceImpl implements UserService {
             }
         } else {
             User user = this.userConverter.DtoToUser(userDTO);
-            this.userRepository.save(user);
+            saveUserData(user);
             apiResponse.setMessage("User Created Successfully");
             log.info("User created with EmailID {}", userDTO.getEmailId());
         }
@@ -67,7 +80,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ApiResponse<List<UserDTO>> getAllUser() throws NotFoundException {
 
-        log.info("Fetching details of all the users.");
+        log.info("Fetching details of all the users");
         ApiResponse<List<UserDTO>> apiResponse = new ApiResponse<>();
         List<User> users = userRepository.findAll();
 
@@ -82,19 +95,20 @@ public class UserServiceImpl implements UserService {
             apiResponse.setData(userDTOS);
             apiResponse.setMessage("All users Fetched Successfully");
         }
+        log.info("Fetched details for all users");
         return apiResponse;
     }
 
     @Override
     public ApiResponse<UserDTO> getUserById(Long userId) throws NotFoundException {
 
-        log.info("Starting user Service Implementation for {}", userId);
+        log.info("Fetching details of user with userId {}", userId);
         ApiResponse<UserDTO> apiResponse = new ApiResponse<>();
-        User userFromDb=null;
+        User userFromDb;
 
-        try{
+        try {
             userFromDb = this.userRepository.findById(userId).get();
-        }catch (Exception e){
+        } catch (Exception e) {
             log.info(e.getMessage());
             apiResponse.setStatus(Status.FAILURE);
             apiResponse.setMessage("No user exist with userId " + userId);
@@ -105,7 +119,7 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = userConverter.userToDTO(userFromDb);
         apiResponse.setData(userDTO);
         apiResponse.setMessage("User Fetched Successfully");
-        log.info("Finishing user Service Implementation for {}", userId);
+        log.info("Fetched details of user with userId {}", userId);
         return apiResponse;
     }
 

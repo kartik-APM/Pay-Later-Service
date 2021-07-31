@@ -39,6 +39,9 @@ public class Account {
 
     private int availableCreditLimit;
 
+    @Version
+    private Integer version;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)

@@ -26,7 +26,7 @@ public class UserConverter {
     }
 
     public List<UserDTO> userToDTOList(List<User> users){
-        return users.stream().map(x -> userToDTO(x))
+        return users.stream().map(this::userToDTO)
                 .collect(Collectors.toList());
 
     }

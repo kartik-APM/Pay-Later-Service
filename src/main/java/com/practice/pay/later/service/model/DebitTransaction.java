@@ -47,6 +47,9 @@ public class DebitTransaction {
 
     private Status status;
 
+    @Version
+    private Integer version;
+
     @ManyToOne(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

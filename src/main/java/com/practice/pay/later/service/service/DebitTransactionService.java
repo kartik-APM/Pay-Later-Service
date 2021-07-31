@@ -12,8 +12,7 @@ public interface DebitTransactionService {
 
     ApiResponse<String> processDebitTransaction(
             DebitTransactionDTO debitTransactionDTO,
-            Long userId,
-            Long accountId);
+            Long userId);
 
 
     List<DebitTransactionDTO> getAllDebitTransaction(Long accountId);

@@ -48,6 +48,9 @@ public class User {
     @Embedded
     private Address address;
 
+    @Version
+    private Integer version;
+
     //Bi-directional OneToOne mapping
     //to get account data when the
     // printAllUser() is called

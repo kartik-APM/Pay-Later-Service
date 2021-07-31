@@ -37,6 +37,9 @@ public class Refund {
     )
     private Long originalTransactionId;
 
+    @Version
+    private Integer version;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
