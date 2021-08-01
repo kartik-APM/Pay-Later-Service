@@ -1,4 +1,4 @@
-package com.practice.pay.later.service.converter;
+package com.practice.pay.later.service.dto.converter;
 
 
 import com.practice.pay.later.service.dto.DebitTransactionDTO;
@@ -41,7 +41,7 @@ public class DebitTransactionConverter {
     }
 
     public List<DebitTransactionDTO> arrayListToDTOList(List<ArrayList> arrayLists){
-        return arrayLists.stream().map(x -> arrayListToDto(x)).
+        return arrayLists.stream().map(this::arrayListToDto).
                 collect(Collectors.toList());
     }
 

@@ -1,6 +1,6 @@
 package com.practice.pay.later.service.service.implementation;
 
-import com.practice.pay.later.service.converter.AccountConverter;
+import com.practice.pay.later.service.dto.converter.AccountConverter;
 import com.practice.pay.later.service.dto.AccountDTO;
 import com.practice.pay.later.service.enums.Status;
 import com.practice.pay.later.service.exception.ApiResponse;
@@ -51,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
         } catch (Exception e) {
             apiResponse.setStatus(Status.FAILURE);
             apiResponse.setMessage("No User exist with userId " + userId);
-            log.info(e.getMessage()+"\nNo User exist with userId {}", userId);
+            log.info("No User exist with userId {}", userId);
             return apiResponse;
         }
 

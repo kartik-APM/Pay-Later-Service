@@ -25,18 +25,18 @@ public class DebitTransactionController {
             @RequestBody @NotNull DebitTransactionDTO debitTransactionDTO,
             @PathVariable("id") @NotNull Long userId) {
 
-        return new ResponseEntity<ApiResponse<String>>(
-                debitTransactionService.processDebitTransaction(
-                        debitTransactionDTO,
-                        userId),
+        return new ResponseEntity<>(
+                debitTransactionService.processDebitTransaction(debitTransactionDTO, userId),
                 HttpStatus.OK);
-
     }
 
-    @GetMapping("/users/{id}/accounts/{id2}/debit")
-    public List<DebitTransactionDTO> getAllDebitTransaction(@PathVariable("id2") Long accountId) {
+    @GetMapping("/users/{id}/accounts/debit")
+    ResponseEntity<ApiResponse<List<DebitTransactionDTO>>> getAllDebitTransactionDetail(
+            @PathVariable("id") Long userId) {
 
-        return debitTransactionService.getAllDebitTransaction(accountId);
+        return new ResponseEntity<>(
+                debitTransactionService.getAllDebitTransaction(userId),
+                HttpStatus.OK);
     }
 
 }

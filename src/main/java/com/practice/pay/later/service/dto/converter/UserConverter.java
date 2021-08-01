@@ -1,4 +1,4 @@
-package com.practice.pay.later.service.converter;
+package com.practice.pay.later.service.dto.converter;
 
 import com.practice.pay.later.service.dto.UserDTO;
 import com.practice.pay.later.service.model.User;
@@ -28,7 +28,6 @@ public class UserConverter {
     public List<UserDTO> userToDTOList(List<User> users){
         return users.stream().map(this::userToDTO)
                 .collect(Collectors.toList());
-
     }
 
     public User DtoToUser(UserDTO userDTO){

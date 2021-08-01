@@ -1,6 +1,6 @@
 package com.practice.pay.later.service.service.implementation;
 
-import com.practice.pay.later.service.converter.UserConverter;
+import com.practice.pay.later.service.dto.converter.UserConverter;
 import com.practice.pay.later.service.dto.UserDTO;
 import com.practice.pay.later.service.enums.Status;
 import com.practice.pay.later.service.exception.ApiResponse;

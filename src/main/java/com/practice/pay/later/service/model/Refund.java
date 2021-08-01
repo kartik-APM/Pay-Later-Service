@@ -53,7 +53,7 @@ public class Refund {
             optional = false
     )
     @JoinColumn(
-            name = "accountDetails",
+            name = "accountId",
             referencedColumnName = "accountId"
     )
     private Account account;

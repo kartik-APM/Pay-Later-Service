@@ -1,4 +1,4 @@
-package com.practice.pay.later.service.converter;
+package com.practice.pay.later.service.dto.converter;
 
 import com.practice.pay.later.service.dto.RefundDTO;
 import com.practice.pay.later.service.model.Refund;

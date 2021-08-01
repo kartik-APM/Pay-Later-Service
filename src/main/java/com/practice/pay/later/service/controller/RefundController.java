@@ -27,7 +27,7 @@ public class RefundController {
     }
 
 
-    @GetMapping("/users/{id}/accounts/{id2}/refund")
+    @GetMapping("/users/{id}/accounts/refund")
     public List<ArrayList> getAllRefunds(@PathVariable("id2") Long accountId){
 
         return refundService.getAllRefunds(accountId);

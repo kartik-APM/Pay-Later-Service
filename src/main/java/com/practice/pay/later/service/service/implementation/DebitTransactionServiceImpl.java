@@ -1,6 +1,6 @@
 package com.practice.pay.later.service.service.implementation;
 
-import com.practice.pay.later.service.converter.DebitTransactionConverter;
+import com.practice.pay.later.service.dto.converter.DebitTransactionConverter;
 import com.practice.pay.later.service.dto.DebitTransactionDTO;
 import com.practice.pay.later.service.enums.Status;
 import com.practice.pay.later.service.exception.ApiResponse;
@@ -49,10 +49,10 @@ public class DebitTransactionServiceImpl implements DebitTransactionService {
         this.debitTransactionRepository.save(debitTransaction);
     }
 
-    /*
+    /**
      * Service Implementation for Processing
      * the Debit Transaction Details
-     * */
+     */
     @Override
     public ApiResponse<String> processDebitTransaction(
             DebitTransactionDTO debitTransactionDTO,
@@ -93,6 +93,7 @@ public class DebitTransactionServiceImpl implements DebitTransactionService {
         Boolean status =
                 this.debitTransactionValidation.check(currentAvailableLimit);
         if (status) {
+            debitTransaction.setStatus(Status.SUCCESSFUL);
             accountFromDb.setAvailableCreditLimit(currentAvailableLimit);
             apiResponse.setMessage("Transaction Processed Successfully");
         } else {
@@ -108,11 +109,40 @@ public class DebitTransactionServiceImpl implements DebitTransactionService {
 
 
     @Override
-    public List<DebitTransactionDTO> getAllDebitTransaction(Long accountId) {
+    public ApiResponse<List<DebitTransactionDTO>> getAllDebitTransaction(Long userId) {
 
-        final List<ArrayList> arrayLists = debitTransactionRepository.getAllDebitTransaction(accountId);
+        log.info("Fetching Debit Transaction for User with UserId {}", userId);
+        ApiResponse<List<DebitTransactionDTO>> apiResponse = new ApiResponse<>();
+        Account accountFromDb;
+        User userFromDb;
 
-        return debitTransactionConverter.arrayListToDTOList(arrayLists);
+        //Null Check for User
+        try {
+            userFromDb = this.userRepository.findById(userId).get();
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            apiResponse.setStatus(Status.FAILURE);
+            apiResponse.setMessage("No user exist with userId " + userId);
+            log.info("Processing Failed while Fetching User");
+            return apiResponse;
+        }
+
+        //Null Check for Account
+        try {
+            accountFromDb = this.accountRepository.findById(userFromDb.getAccount().getAccountId()).get();
+        } catch (Exception e) {
+            apiResponse.setStatus(Status.FAILURE);
+            apiResponse.setMessage("No account exist for the user with userId " + userId);
+            log.info("Processing Failed while Fetching Account");
+            return apiResponse;
+        }
+
+
+        final List<ArrayList> arrayLists = debitTransactionRepository.getAllDebitTransaction(accountFromDb.getAccountId());
+        apiResponse.setData(debitTransactionConverter.arrayListToDTOList(arrayLists));
+        apiResponse.setMessage("Debit Transaction data Fetched Successfully");
+        log.info("Debit Transaction data Fetched Successfully");
+        return apiResponse;
     }
 
 }

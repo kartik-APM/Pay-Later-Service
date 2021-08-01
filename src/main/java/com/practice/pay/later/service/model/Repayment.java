@@ -48,7 +48,7 @@ public class Repayment {
             optional = false
     )
     @JoinColumn(
-            name = "accountDetails",
+            name = "accountId",
             referencedColumnName = "accountId"
     )
     private Account account;

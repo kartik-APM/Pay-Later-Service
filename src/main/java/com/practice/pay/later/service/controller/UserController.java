@@ -1,7 +1,7 @@
 package com.practice.pay.later.service.controller;
 
 
-import com.practice.pay.later.service.converter.UserConverter;
+import com.practice.pay.later.service.dto.converter.UserConverter;
 import com.practice.pay.later.service.dto.UserDTO;
 import com.practice.pay.later.service.enums.Status;
 import com.practice.pay.later.service.exception.ApiResponse;
@@ -9,16 +9,11 @@ import com.practice.pay.later.service.exception.NotFoundException;
 import com.practice.pay.later.service.model.User;
 import com.practice.pay.later.service.service.UserService;
 import com.sun.istack.NotNull;
-import io.swagger.annotations.Api;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 
